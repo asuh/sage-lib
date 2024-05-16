@@ -5,3 +5,5 @@
 Sage is a WordPress starter theme with a modern development workflow.
 
 Sage Repo: [https://github.com/roots/sage](https://github.com/roots/sage)
+
+References: [https://github.com/pyksid/sage-lib/][https://github.com/pyksid/sage-lib/]

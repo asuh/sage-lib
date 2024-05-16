@@ -6,6 +6,7 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as ContainerContract;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\ViewServiceProvider;
 
 /**
@@ -35,6 +36,10 @@ class BladeProvider extends ViewServiceProvider
     {
         $this->registerFilesystem();
         $this->registerEvents();
+        $this->registerEngineResolver();
+        $this->registerViewFinder();
+        $this->registerFactory();
+        $this->registerBladeCompiler();
         parent::register();
     }
 
@@ -69,4 +74,35 @@ class BladeProvider extends ViewServiceProvider
         }, true);
         return $this;
     }
+
+    /**
+     * Register the view environment.
+     *
+     * @return void
+     */
+    public function registerFactory()
+    {
+        $this->app->singleton('view', function ($app) {
+            $resolver = $app['view.engine.resolver'];
+            $finder = $app['view.finder'];
+            $factory = $this->createFactory($resolver, $finder, $app['events']);
+            $factory->setContainer($app);
+            $factory->share('app', $app);
+            return $factory;
+        });
+    }
+
+    /**
+     * Register the Blade engine implementation.
+     *
+     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @return void
+     */
+    public function registerBladeEngine($resolver)
+    {
+        $resolver->register('blade', function () {
+            $compiler = new CompilerEngine($this->app['blade.compiler'], $this->app['files']);
+            return $compiler;
+        });
+    }    
 }
