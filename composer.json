@@ -1,5 +1,5 @@
 {
-  "name": "roots/sage-lib",
+  "name": "asuh/sage-lib",
   "license": "MIT",
   "description": "Library files for Sage Starter Theme",
   "homepage": "https://roots.io/sage/",
@@ -23,8 +23,13 @@
     "wordpress"
   ],
   "support": {
-    "issues": "https://github.com/asuh/sage-lib/issues",
+    "issues": "https://github.com/asuh/sage-lib/issues"
   },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "9.x-dev"
+    }
+  },  
   "autoload": {
     "psr-4": {
       "Roots\\Sage\\": ""
